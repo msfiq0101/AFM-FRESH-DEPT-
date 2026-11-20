@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFM Fresh Enterprise System</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1119;color:#e5eaf0;font-family:Inter,Arial,sans-serif}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#101822;border-right:1px solid #253140;padding:20px 14px;flex-shrink:0}
+.logo{font-size:18px;font-weight:800;letter-spacing:1px;color:#dce7e0}
+.logo span{display:block;font-size:10px;color:#8797a8;letter-spacing:3px;margin-top:4px}
+.navtitle{font-size:10px;color:#728296;letter-spacing:2px;margin:25px 10px 10px}
+.nav{display:block;width:100%;text-align:left;padding:11px 12px;margin:3px 0;border:0;border-radius:8px;background:transparent;color:#aab6c4;cursor:pointer;font-size:13px}
+.nav:hover,.nav.active{background:#1e2c39;color:#fff}
+.nav.active{border-left:3px solid #55b58a}
+.main{flex:1;min-width:0}
+.topbar{height:65px;border-bottom:1px solid #253140;display:flex;align-items:center;justify-content:space-between;padding:0 25px;background:#0e151e;gap:15px}
+.search{background:#17212d;border:1px solid #293747;border-radius:8px;padding:10px 14px;color:#dbe3ec;width:45%;max-width:450px}
+.profile{font-size:12px;color:#aab6c4}
+.content{padding:26px}
+.breadcrumb{color:#8797a8;font-size:12px;margin-bottom:20px}
+h1{font-size:24px;margin:0 0 8px}
+.sub{color:#8e9cac;font-size:13px;margin-bottom:20px}
+.pills{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.pill{font-size:11px;border:1px solid #344454;background:#17222e;color:#a8bac9;border-radius:20px;padding:7px 11px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:#121d28;border:1px solid #263545;border-radius:12px;padding:18px}
+.metric{font-size:11px;color:#92a2b3}
+.value{font-size:27px;font-weight:750;margin:12px 0}
+.green{color:#58c38c}.red{color:#f17f83}.yellow{color:#e8bd69}
+.small{font-size:11px;color:#8797a8}
+.section{margin-top:20px}
+.sectionhead{font-size:15px;font-weight:700;margin-bottom:14px}
+.split{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;color:#8495a7;padding:12px;border-bottom:1px solid #293747;font-size:10px;letter-spacing:1px}
+td{padding:13px 12px;border-bottom:1px solid #22303e;color:#c5d0db}
+.status{border-radius:20px;padding:5px 9px;font-size:10px;display:inline-block}
+.ok{background:#17392e;color:#67c998}
+.watch{background:#3c3320;color:#e9bf67}
+.alert{background:#3c2428;color:#f18c91}
+.item{padding:14px 0;border-bottom:1px solid #293747}
+.item:last-child{border:0}
+.itemtitle{font-size:12px;font-weight:700;margin-bottom:6px}
+.itemdesc{font-size:11px;color:#8e9cac;line-height:1.6}
+.bar{height:7px;background:#253342;border-radius:10px;margin-top:10px;overflow:hidden}
+.bar span{display:block;height:100%;background:#58b78b;border-radius:10px}
+button{font-family:inherit}
+.modulebox{background:#121d28;border:1px solid #263545;border-radius:12px;padding:20px}
+.hidden{display:none}
+.footer{color:#647587;font-size:10px;margin-top:25px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}}
+@media(max-width:700px){
+.sidebar{width:190px}.content{padding:16px}.topbar{padding:0 15px}
+.search{width:50%}.grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:500px){
+.app{display:block}.sidebar{width:100%;height:auto}.main{width:100%}
+.grid{grid-template-columns:1fr}.topbar{height:auto;padding:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+<aside class="sidebar">
+<div class="logo">AFM FRESH<span>ENTERPRISE SYSTEM</span></div>
+
+<div class="navtitle">OVERVIEW</div>
+<button class="nav active" onclick="openModule('Dashboard',this)">▦ Dashboard</button>
+<button class="nav" onclick="openModule('Reporting & Analytics',this)">◫ Reporting</button>
+
+<div class="navtitle">SUPPLY & CONTROL</div>
+<button class="nav" onclick="openModule('Inventory & Stock Control',this)">▤ Inventory</button>
+<button class="nav" onclick="openModule('Stock Take & Audit',this)">▣ Stock Take</button>
+<button class="nav" onclick="openModule('Receiving & Quality Control',this)">↓ Receiving & QC</button>
+<button class="nav" onclick="openModule('Replenishment & Out of Stock',this)">↻ Replenishment</button>
+
+<div class="navtitle">FRESH OPERATIONS</div>
+<button class="nav" onclick="openModule('Fresh Operations',this)">♧ Fresh Operations</button>
+<button class="nav" onclick="openModule('Waste & Loss Management',this)">♲ Waste & Loss</button>
+<button class="nav" onclick="openModule('Markdown & Pricing Control',this)">٪ Markdown & Pricing</button>
+<button class="nav" onclick="openModule('Equipment & Temperature Monitoring',this)">♧ Equipment & Temp</button>
+<button class="nav" onclick="openModule('Cleaning & Hygiene',this)">✧ Cleaning & Hygiene</button>
+
+<div class="navtitle">PEOPLE & COMPLIANCE</div>
+<button class="nav" onclick="openModule('HR & Staff Management',this)">♙ HR & Staff</button>
+<button class="nav" onclick="openModule('Customer Service & Complaints',this)">☏ Customer Service</button>
+<button class="nav" onclick="openModule('SOP & Training Centre',this)">▣ SOP & Training</button>
+<button class="nav" onclick="openModule('Tasks, Incidents & Corrective Actions',this)">⚑ Tasks & Incidents</button>
+
+<div class="navtitle">SYSTEM</div>
+<button class="nav" onclick="openModule('System & Integrations',this)">⚙ System & Integrations</button>
+
+<div class="footer">AFM FRESH ENTERPRISE<br>Digital Operations Platform</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<div style="font-size:12px;color:#9aa9b8">Fresh Department / Enterprise</div>
+<input class="search" placeholder="Search modules, tasks, alerts..." oninput="searchModules(this.value)">
+<div class="profile">ADMIN ▾</div>
+</header>
+
+<div class="content">
+<div id="dashboard">
+<div class="breadcrumb">AFM FRESH / OVERVIEW</div>
+<h1>Executive Dashboard</h1>
+<div class="sub">Fresh Department operational overview and performance monitoring.</div>
+
+<div class="pills">
+<span class="pill">● DEMO DATA</span>
+<span class="pill">Enterprise Dashboard</span>
+<span class="pill">Admin View</span>
+</div>
+
+<div class="grid">
+<div class="card">
+<div class="metric">Stock Variance</div>
+<div class="value red">2.4%</div>
+<div class="small">Stock control monitoring</div>
+</div>
+<div class="card">
+<div class="metric">Waste Today</div>
+<div class="value yellow">RM 1,186</div>
+<div class="small">Demo data</div>
+</div>
+<div class="card">
+<div class="metric">Pending Tasks</div>
+<div class="value">12</div>
+<div class="small">Requires department action</div>
+</div>
+<div class="card">
+<div class="metric">Compliance Score</div>
+<div class="value green">94.2%</div>
+<div class="small">Illustrative demo score</div>
+</div>
+</div>
+
+<div class="section split">
+<div class="modulebox">
+<div class="sectionhead">Operational Performance</div>
+<table>
+<thead><tr><th>SECTION</th><th>STATUS</th><th>PERFORMANCE</th></tr></thead>
+<tbody>
+<tr><td>Vegetables</td><td><span class="status ok">On Track</span></td><td>92%</td></tr>
+<tr><td>Seafood</td><td><span class="status watch">Monitor</span></td><td>87%</td></tr>
+<tr><td>Butchery</td><td><span class="status ok">On Track</span></td><td>96%</td></tr>
+<tr><td>Produce</td><td><span class="status alert">Attention</span></td><td>78%</td></tr>
+<tr><td>Frozen</td><td><span class="status ok">On Track</span></td><td>93%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="modulebox">
+<div class="sectionhead">Needs Attention</div>
+<div class="item">
+<div class="itemtitle"><span class="red">●</span> Temperature Alert</div>
+<div class="itemdesc">Demo alert — equipment monitoring requires review.</div>
+</div>
+<div class="item">
+<div class="itemtitle"><span class="yellow">●</span> Stock Take Pending</div>
+<div class="itemdesc">Demo alert — audit task requires verification.</div>
+</div>
+<div class="item">
+<div class="itemtitle"><span class="red">●</span> Waste Monitoring</div>
+<div class="itemdesc">Demo alert — review section loss data.</div>
+</div>
+</div>
+</div>
+
+<div class="section modulebox">
+<div class="sectionhead">Department Task Overview</div>
+<table>
+<thead><tr><th>TASK</th><th>SECTION</th><th>PRIORITY</th><th>STATUS</th></tr></thead>
+<tbody>
+<tr><td>Daily temperature inspection</td><td>Seafood</td><td><span class="status alert">High</span></td><td>Pending</td></tr>
+<tr><td>Expiry date verification</td><td>Produce</td><td><span class="status watch">Medium</span></td><td>In Progress</td></tr>
+<tr><td>Display compliance check</td><td>Butchery</td><td><span class="status watch">Medium</span></td><td>Pending</td></tr>
+<tr><td>Waste report review</td><td>Fresh</td><td><span class="status ok">Normal</span></td><td>Pending</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="modulePage" class="hidden">
+<div class="breadcrumb">AFM FRESH / MODULE</div>
+<h1 id="moduleTitle">Module</h1>
+<div class="sub">Digital operational workspace</div>
+<div class="pills">
+<span class="pill">● FOUNDATION BUILD</span>
+<span class="pill">Admin View</span>
+</div>
+<div class="modulebox">
+<div class="sectionhead" id="moduleHeading">Module Workspace</div>
+<p class="small">This module workspace is part of the AFM Fresh Enterprise System prototype.</p>
+<p class="small">Live database, authentication, record submission, approval workflows and audit trails will be connected in later development phases.</p>
+<div class="grid" style="margin-top:20px">
+<div class="card"><div class="metric">Records</div><div class="value">—</div><div class="small">Database connection pending</div></div>
+<div class="card"><div class="metric">Pending Review</div><div class="value">—</div><div class="small">Workflow connection pending</div></div>
+<div class="card"><div class="metric">Compliance</div><div class="value">—</div><div class="small">Live calculation pending</div></div>
+<div class="card"><div class="metric">Alerts</div><div class="value">—</div><div class="small">Alert engine pending</div></div>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+
+<script>
+function openModule(name,btn){
+document.getElementById('dashboard').classList.add('hidden');
+document.getElementById('modulePage').classList.remove('hidden');
+document.getElementById('moduleTitle').textContent=name;
+document.getElementById('moduleHeading').textContent=name+' Workspace';
+document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));
+if(btn)btn.classList.add('active');
+}
+function searchModules(value){
+if(!value)return;
+let buttons=document.querySelectorAll('.nav');
+buttons.forEach(b=>{
+if(b.textContent.toLowerCase().includes(value.toLowerCase())){
+b.style.display='block';
+}else{
+b.style.display='none';
+}
+});
+}
+</script>
+</body>
+</html>
